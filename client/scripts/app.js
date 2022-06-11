@@ -21,16 +21,36 @@ var App = {
 
     // TODO: Make sure the app loads data from the API
     // continually, instead of just once at the start.
+    // setTimeout(scheduleNextTweet, 250 + (Math.random() * 1250))
+
+    var scheduleNextMessage = function() {
+      // if (streams.home.length < 100) {
+        MessagesView.initialize();
+        FormView.initialize();
+        RoomsView.initialize();
+        App.fetch();
+        // MessagesView.initialize();
+        setTimeout(scheduleNextMessage, 5000);
+      //}
+    };
+    scheduleNextMessage();
+
+
+
   },
 
   fetch: function(callback = ()=>{}) {
     Parse.readAll((data) => {
       // examine the response from the server request:
-      console.log(data);
-
+      $('.chats').remove();
+      Messages.data = data;
+      Rooms.data = data;
+      MessagesView.render();
+      RoomsView.renderRoom();
       // TODO: Use the data to update Messages and Rooms
       // and re-render the corresponding views.
     });
+
   },
 
   startSpinner: function() {

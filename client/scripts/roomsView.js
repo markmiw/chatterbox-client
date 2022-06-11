@@ -13,9 +13,18 @@ var RoomsView = {
 
   render: function() {
     // TODO: Render out the list of rooms.
+    let obj = Rooms.filter(Rooms.data);
+    for (let key in obj) {
+      var compiled = RoomsView.renderRoom(obj[key]);
+      $select.append(compiled);
+    }
+
   },
 
   renderRoom: function(roomname) {
+    _.template(`
+      <select class="rooms"><%= roomname %></select>
+    `);
     // TODO: Render out a single room.
   },
 
@@ -25,6 +34,7 @@ var RoomsView = {
 
   handleClick: function(event) {
     // TODO: Handle the user clicking the "Add Room" button.
+
   }
 
 };
