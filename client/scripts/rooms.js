@@ -14,19 +14,26 @@ var Rooms = {
       obj[key] = key;
     }
     return obj;
-  }
+  },
+  oldRooms: {},
 
   // TODO: Define methods which allow you to add rooms, update the list,
   // mark a room as selected, etc.
 
   // 1. create methods that will
-    // add rooms
+  // add rooms
+  // addRoom: function() {
+    // $addroom : $('#addRoom').click(function() {
+    //   var str = $('#room').val();
+    //   alert(str);
+    // });
 
 
-    // update the list
+
+  // update the list
 
 
-    // mark room as selected
+  // mark room as selected
 
 };
 

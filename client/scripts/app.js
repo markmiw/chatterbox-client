@@ -14,6 +14,9 @@ var App = {
     FormView.initialize();
     RoomsView.initialize();
     MessagesView.initialize();
+    RoomsView.handleClick();
+    FormView.handleSubmit();
+    MessagesView.handleClick();
 
     // Fetch initial batch of messages
     App.startSpinner();
@@ -25,28 +28,26 @@ var App = {
 
     var scheduleNextMessage = function() {
       // if (streams.home.length < 100) {
-        MessagesView.initialize();
-        FormView.initialize();
-        RoomsView.initialize();
-        App.fetch();
-        // MessagesView.initialize();
-        setTimeout(scheduleNextMessage, 5000);
+      // MessagesView.initialize();
+      // FormView.initialize();
+      // RoomsView.initialize();
+      App.fetch();
+      // MessagesView.initialize();
+      setTimeout(scheduleNextMessage, 5000);
       //}
     };
+    App.stopSpinner();
     scheduleNextMessage();
-
-
-
   },
 
   fetch: function(callback = ()=>{}) {
     Parse.readAll((data) => {
       // examine the response from the server request:
-      $('.chats').remove();
+      MessagesView.$message.remove();
       Messages.data = data;
       Rooms.data = data;
       MessagesView.render();
-      RoomsView.renderRoom();
+      RoomsView.render();
       // TODO: Use the data to update Messages and Rooms
       // and re-render the corresponding views.
     });

@@ -6,6 +6,7 @@ var RoomsView = {
   $button: $('#rooms button'),
   $select: $('#rooms select'),
 
+
   initialize: function() {
     // TODO: Perform any work which needs to be done
     // when this view loads.
@@ -13,18 +14,31 @@ var RoomsView = {
 
   render: function() {
     // TODO: Render out the list of rooms.
-    let obj = Rooms.filter(Rooms.data);
+    let oldRooms = JSON.parse(JSON.stringify(Rooms.oldRooms)); //deep clone
+
+    var obj = Rooms.filter(Rooms.data);
+    Rooms.oldRooms = obj;
+    // debugger;
     for (let key in obj) {
-      var compiled = RoomsView.renderRoom(obj[key]);
-      $select.append(compiled);
+      if (!(key in oldRooms)) {
+      RoomsView.renderRoom(key);
+      }
+      //var compiled = RoomsView.renderRoom(obj[key]);
+    // RoomsView.$select.append(compiled);
+    }
+    for (let key in oldRooms) {
+      if (!(key in obj)) {
+        $('#' + key).remove();
+      }
+      //var compiled = RoomsView.renderRoom(obj[key]);
+    // RoomsView.$select.append(compiled);
     }
 
   },
 
   renderRoom: function(roomname) {
-    _.template(`
-      <select class="rooms"><%= roomname %></select>
-    `);
+    RoomsView.$select.append('<option class="roomItems" id="' + roomname + '"' + '>' + roomname + '</option>');
+
     // TODO: Render out a single room.
   },
 
@@ -34,7 +48,18 @@ var RoomsView = {
 
   handleClick: function(event) {
     // TODO: Handle the user clicking the "Add Room" button.
-
+    $('#addRoom').click(function() {
+      let roomName = $('#room').val();
+      let text = $('#message').val();
+      //let text = 'hello';
+      let username = window.location.search.substring(10, window.location.search.length);
+      let message = {
+        username: username,
+        text: text,
+        roomname: roomName
+      };
+      Parse.create(message);
+    });
   }
 
 };
